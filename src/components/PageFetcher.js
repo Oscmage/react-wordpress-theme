@@ -2,36 +2,18 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 
-import { receivedPage } from "./../Actions";
-import Generic from "./page/Generic";
-import jsonRequest from "./../helpers/fetch";
+import { requestPage } from "./../Actions";
+import PageTemplateSwitcher from "./PageTemplateSwitcher";
+
+const getSlugFromLocation = location => {
+  return location.pathname.slice(1, -1);
+};
 
 class PageFetcher extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      id: null
-    };
-  }
-
-  getSlug = path => {
-    return path.slice(1, -1);
-  };
-
   getPage = props => {
-    const path = this.getSlug(props.location.pathname);
+    const slug = getSlugFromLocation(props.location);
 
-    jsonRequest("/wp-json/wp/v2/pages?slug=" + path)
-      .then(page => {
-        console.log(page);
-        this.props.onReceivedpage(page[0]);
-        this.setState({ loading: false, id: page[0].id });
-      })
-      .catch(function(err) {
-        this.setState({ loading: false });
-        console.log("Fetch Error :-S", err);
-      });
+    this.props.onRequestPage(slug);
   };
 
   componentWillMount() {
@@ -45,22 +27,27 @@ class PageFetcher extends Component {
   }
 
   render() {
-    const { loading, id } = this.state;
+    const { id } = this.props;
+    const isLoading = !id;
 
-    if (loading) {
+    if (isLoading) {
       return <p>Loading</p>;
     }
 
     return (
       <div className="Page">
-        <Generic pageId={id} />
+        <PageTemplateSwitcher pageId={id} />
       </div>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onReceivedpage: page => dispatch(receivedPage(page))
+const mapStateToProps = (state, props) => ({
+  id: state.pages.slugsToId[getSlugFromLocation(props.location)]
 });
 
-export default connect(null, mapDispatchToProps)(PageFetcher);
+const mapDispatchToProps = dispatch => ({
+  onRequestPage: slug => dispatch(requestPage(slug))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageFetcher);

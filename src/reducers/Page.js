@@ -1,7 +1,8 @@
 import { REQUEST_PAGE, RECEIVED_PAGE } from "../Actions.js";
 
 const initialState = {
-  pages: {}
+  pages: {},
+  slugsToId: {}
 };
 
 export default function post(state = initialState, action) {
@@ -17,6 +18,10 @@ export default function post(state = initialState, action) {
         pages: {
           ...state.pages,
           [action.page.id]: action.page
+        },
+        slugsToId: {
+          ...state.slugsToId,
+          [action.page.slug]: action.page.id
         }
       };
 

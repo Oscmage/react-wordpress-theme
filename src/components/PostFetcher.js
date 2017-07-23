@@ -2,9 +2,8 @@ import React, { PureComponent } from "react";
 
 import { connect } from "react-redux";
 
-import { receivedPost } from "./../Actions";
+import { requestPost } from "./../Actions";
 import Post from "./page/Post";
-import jsonRequest from "./../helpers/fetch";
 
 class PostFetcher extends PureComponent {
   constructor(props) {
@@ -22,17 +21,10 @@ class PostFetcher extends PureComponent {
   };
 
   getPost = props => {
-    const path = this.getSlug(props.location.pathname);
-
-    jsonRequest("/wp-json/wp/v2/posts?slug=" + path)
-      .then(post => {
-        this.props.onReceivedPost(post[0]);
-        this.setState({ loading: false, id: post[0].id });
-      })
-      .catch(function(err) {
-        this.setState({ loading: false });
-        console.log("Fetch Error :-S", err);
-      });
+    const slug = this.getSlug(props.location.pathname);
+    this.props.onRequestPost(slug).then(id => {
+      this.setState({ loading: false, id });
+    });
   };
 
   componentWillMount() {
@@ -61,7 +53,7 @@ class PostFetcher extends PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onReceivedPost: post => dispatch(receivedPost(post))
+  onRequestPost: slug => dispatch(requestPost(slug))
 });
 
 export default connect(null, mapDispatchToProps)(PostFetcher);

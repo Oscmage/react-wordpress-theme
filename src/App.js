@@ -6,10 +6,11 @@ import { Provider, connect } from "react-redux";
 import baseurl from "./BaseUrl";
 import store from "./Store";
 import AppHeader from "./AppHeader.js";
-import { receivedMenu } from "./Actions";
+import { receivedMenu, requestAllPages } from "./Actions";
 
 import PostFetcher from "./components/PostFetcher";
 import PageFetcher from "./components/PageFetcher";
+import "requestidlecallback";
 
 class App extends Component {
   componentWillMount() {
@@ -30,6 +31,10 @@ class App extends Component {
       .catch(function(err) {
         console.log("Fetch Error :-S", err);
       });
+
+    requestIdleCallback(() => {
+      this.props.onIdle();
+    });
   }
 
   render() {
@@ -51,7 +56,8 @@ class App extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onReceivedMenu: menuList => dispatch(receivedMenu(menuList))
+  onReceivedMenu: menuList => dispatch(receivedMenu(menuList)),
+  onIdle: () => dispatch(requestAllPages())
 });
 
 const mapStateToProps = state => ({
