@@ -9,7 +9,6 @@ class PageTemplateSwitcher extends Component {
   render() {
     const { page } = this.props;
 
-    console.log("props", this.props);
     switch (page.template) {
       case "template.php":
         return <Template {...this.props} />;

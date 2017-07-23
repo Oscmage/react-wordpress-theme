@@ -11,7 +11,10 @@ injectGlobal`
 
     body {
         margin: 0;
-        padding-bottom: 2rem;
+    }
+
+    html,body,#root,.App {
+        height: 100%;
     }
 `;
 

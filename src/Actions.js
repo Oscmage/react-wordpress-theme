@@ -25,7 +25,6 @@ export const requestAllPages = () => dispatch => {
   });
   return jsonRequest(ALL_PAGES_URL)
     .then(pages => {
-      console.log("GOT THEM PAGES YO", pages);
       pages.forEach(page => {
         dispatch(receivedPage(page));
       });

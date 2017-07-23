@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import { requestPage } from "./../Actions";
 import PageTemplateSwitcher from "./PageTemplateSwitcher";
+import styled from "styled-components";
 
 const getSlugFromLocation = location => {
   return location.pathname.slice(1, -1);
@@ -35,9 +36,9 @@ class PageFetcher extends Component {
     }
 
     return (
-      <div className="Page">
+      <PageContent>
         <PageTemplateSwitcher pageId={id} />
-      </div>
+      </PageContent>
     );
   }
 }
@@ -51,3 +52,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageFetcher);
+
+const PageContent = styled.div`flex: 1;`;

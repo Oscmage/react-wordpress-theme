@@ -7,10 +7,12 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider, connect } from "react-redux";
 import store from "./Store";
 import { receivedMenu, requestAllPages, MENU_URL } from "./Actions";
+import styled from "styled-components";
 
 import AppHeader from "./AppHeader.js";
 import PostFetcher from "./components/PostFetcher";
 import PageFetcher from "./components/PageFetcher";
+import Footer from "./Footer";
 
 class App extends Component {
   componentWillMount() {
@@ -29,18 +31,17 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Router>
-          <div>
-            <AppHeader />
-            <Route path="/:page/" component={PageFetcher} />
-            <Route
-              path="/(\d{4}/\d{2}/\d{2})/:postname/"
-              component={PostFetcher}
-            />
-          </div>
-        </Router>
-      </div>
+      <Router>
+        <AppWrapper>
+          <AppHeader />
+          <Route path="/:page/" component={PageFetcher} />
+          <Route
+            path="/(\d{4}/\d{2}/\d{2})/:postname/"
+            component={PostFetcher}
+          />
+          <Footer />
+        </AppWrapper>
+      </Router>
     );
   }
 }
@@ -62,3 +63,9 @@ const ProviderApp = () =>
   </Provider>;
 
 export default ProviderApp;
+
+const AppWrapper = styled.div`
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+`;

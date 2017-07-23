@@ -20,21 +20,17 @@ class AppHeader extends Component {
   render() {
     return (
       <Banner>
-        <HeaderContainer>
-          <Header>
-            <Title>
-              Test <SmallTitle>liten title</SmallTitle>
-            </Title>
-          </Header>
-        </HeaderContainer>
+        <Header>
+          <HomeLink to="/">
+            <Title>Test</Title>
+          </HomeLink>
+        </Header>
 
-        <NavigationContainer>
-          <Navigation>
-            <ul>
-              {this.renderMenuItems()}
-            </ul>
-          </Navigation>
-        </NavigationContainer>
+        <Navigation>
+          <NavigationList>
+            {this.renderMenuItems()}
+          </NavigationList>
+        </Navigation>
       </Banner>
     );
   }
@@ -45,49 +41,35 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps)(AppHeader);
 
-const HeaderContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  height: 250px;
+const HomeLink = styled(Link)`
+  text-decoration: none;
 `;
 
 const Banner = styled.div`
-  height: 250px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
   background-color: #ffffff;
   box-shadow: 0 0 9px 2px rgba(0, 0, 0, 0.3);
-  margin-bottom: 5rem;
 `;
 
 const Header = styled.header`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-flow: row-wrap;
-  width: 100%;
   padding: 0 1rem;
 `;
 
-const Title = styled.div`
-  height: 68px;
+const Title = styled.h1`
   font-family: Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+  margin: 0;
   font-size: 3rem;
   font-weight: 500;
   color: #4a4a4a;
 `;
 
-const SmallTitle = styled.small`
-  font-weight: 200;
-  font-size: 80%;
-`;
-
-const NavigationContainer = styled.div`
-  height: 3em;
-  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
-  background-color: #c4c4c4;
+const NavigationList = styled.ul`
   display: flex;
-  justify-content: space-around;
+  padding: 0;
+  margin: 0;
 `;
 
 const Navigation = styled.nav`display: flex;`;
