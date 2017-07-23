@@ -16,6 +16,12 @@ injectGlobal`
     html,body,#root,.App {
         height: 100%;
     }
+    
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
 `;
 
 ReactDOM.render(<App />, document.getElementById("root"));

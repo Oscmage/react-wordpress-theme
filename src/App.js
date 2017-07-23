@@ -9,7 +9,7 @@ import store from "./Store";
 import { receivedMenu, requestAllPages, MENU_URL } from "./Actions";
 import styled from "styled-components";
 
-import AppHeader from "./AppHeader.js";
+import Menu from "./components/menu/Menu";
 import PostFetcher from "./components/PostFetcher";
 import PageFetcher from "./components/PageFetcher";
 import Footer from "./Footer";
@@ -33,7 +33,7 @@ class App extends Component {
     return (
       <Router>
         <AppWrapper>
-          <AppHeader />
+          <Menu />
           <Route path="/:page/" component={PageFetcher} />
           <Route
             path="/(\d{4}/\d{2}/\d{2})/:postname/"

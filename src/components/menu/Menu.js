@@ -1,18 +1,22 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import MenuItem from "./MenuItem";
 
 import { connect } from "react-redux";
 
-class AppHeader extends Component {
+class Menu extends Component {
   renderMenuItems = () => {
     const { menuList } = this.props;
 
     return menuList.map(item => {
       return (
-        <NavigationItem key={item.id} to={new URL(item.url).pathname}>
-          {item.title}
-        </NavigationItem>
+        <MenuItem
+          key={item.id}
+          url={item.url}
+          children={item.children}
+          title={item.title}
+        />
       );
     });
   };
@@ -39,7 +43,7 @@ const mapStateToProps = state => ({
   menuList: state.menu.menuList
 });
 
-export default connect(mapStateToProps)(AppHeader);
+export default connect(mapStateToProps)(Menu);
 
 const HomeLink = styled(Link)`
   text-decoration: none;
@@ -66,29 +70,6 @@ const Title = styled.h1`
   color: #4a4a4a;
 `;
 
-const NavigationList = styled.ul`
-  display: flex;
-  padding: 0;
-  margin: 0;
-`;
+const NavigationList = styled.ul`display: flex;`;
 
 const Navigation = styled.nav`display: flex;`;
-
-const NavigationItem = styled(Link)`
-  width: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background-color: #c4c4c4;
-  text-decoration: none;
-  color: #4a4a4a;
-  font-family: AvenirNext;
-  font-weight: bold;
-  font-size: 1.25rem;
-  :hover {
-    background-color: #E4E4E4;
-  }
-  :active {
-    background-color: #D4D4D4;
-  }
-`;
