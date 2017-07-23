@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 
 import { connect } from "react-redux";
 import baseurl from "./../BaseUrl";
 import { receivedPost } from "./../Actions";
 import Post from "./page/Post";
 
-class PostFetcher extends Component {
+class PostFetcher extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,14 +14,14 @@ class PostFetcher extends Component {
     };
   }
 
-  getSlug = () => {
-    const path = this.props.location.pathname.slice(0, -1);
+  getSlug = pathname => {
+    const path = pathname.slice(0, -1);
     const lastIndex = path.lastIndexOf("/");
     return path.slice(lastIndex + 1);
   };
 
-  componentWillMount() {
-    const path = this.getSlug();
+  getPost = props => {
+    const path = this.getSlug(props.location.pathname);
 
     fetch(baseurl + "/wp-json/wp/v2/posts?slug=" + path)
       .then(response => {
@@ -34,7 +34,6 @@ class PostFetcher extends Component {
 
         // Examine the text in the response
         response.json().then(post => {
-          console.log(post[0].id);
           this.props.onReceivedPost(post[0]);
           this.setState({ loading: false, id: post[0].id });
         });
@@ -42,34 +41,35 @@ class PostFetcher extends Component {
       .catch(function(err) {
         console.log("Fetch Error :-S", err);
       });
-    //Senare set loading
-    //Resultat ta bort loading
-    //Error visa error
+  };
+
+  componentWillMount() {
+    this.getPost(this.props);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.location !== this.props.location) {
+      this.getPost(newProps);
+    }
   }
 
   render() {
-    const { loading } = this.state;
-    const { post } = this.props;
+    const { loading, id } = this.state;
 
     if (loading) {
       return <p>Loading</p>;
     }
 
-    console.log("post", post);
     return (
       <div className="Post">
-        <Post post={post} />
+        <Post postId={id} />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  post: state.posts.posts[props.id]
-});
-
 const mapDispatchToProps = dispatch => ({
   onReceivedPost: post => dispatch(receivedPost(post))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostFetcher);
+export default connect(null, mapDispatchToProps)(PostFetcher);

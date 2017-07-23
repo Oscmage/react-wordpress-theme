@@ -1,19 +1,24 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class Post extends Component {
   render() {
-    console.log(this.props);
     const post = this.props.post;
-    console.log(post);
+    console.log("Inside post and got", post);
 
     return (
       <div className="Post">
         <h1>
-          {JSON.stringify(post.title)}
+          {post.title.rendered}
         </h1>
+        <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
       </div>
     );
   }
 }
 
-export default Post;
+const mapStateToProps = (state, props) => ({
+  post: state.posts.posts[props.postId]
+});
+
+export default connect(mapStateToProps)(Post);
