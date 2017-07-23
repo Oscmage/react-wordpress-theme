@@ -1,35 +1,25 @@
 import React, { Component } from "react";
 import "./App.css";
+import "requestidlecallback";
+import jsonRequest from "./helpers/Fetch.js";
+
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
 import { Provider, connect } from "react-redux";
-import baseurl from "./BaseUrl";
 import store from "./Store";
-import AppHeader from "./AppHeader.js";
-import { receivedMenu, requestAllPages } from "./Actions";
+import { receivedMenu, requestAllPages, MENU_URL } from "./Actions";
 
+import AppHeader from "./AppHeader.js";
 import PostFetcher from "./components/PostFetcher";
 import PageFetcher from "./components/PageFetcher";
-import "requestidlecallback";
 
 class App extends Component {
   componentWillMount() {
-    fetch(baseurl + "/wp-json/wp-api-menus/v2/menus/2")
-      .then(response => {
-        if (response.status !== 200) {
-          console.log(
-            "Looks like there was a problem. Status Code: " + response.status
-          );
-          return;
-        }
-
-        // Examine the text in the response
-        response.json().then(data => {
-          this.props.onReceivedMenu(data.items);
-        });
+    jsonRequest(MENU_URL)
+      .then(data => {
+        this.props.onReceivedMenu(data.items);
       })
       .catch(function(err) {
-        console.log("Fetch Error :-S", err);
+        console.log("Fetch Error menu", err);
       });
 
     requestIdleCallback(() => {

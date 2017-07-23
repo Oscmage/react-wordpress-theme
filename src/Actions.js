@@ -1,8 +1,9 @@
-import jsonRequest from "./helpers/fetch";
+import jsonRequest from "./helpers/Fetch";
 
 export const PAGE_SLUG_URL = "/wp-json/wp/v2/pages?slug=";
 export const POST_SLUG_URL = "/wp-json/wp/v2/posts?slug=";
 export const ALL_PAGES_URL = "/wp-json/wp/v2/pages/";
+export const MENU_URL = "/wp-json/wp-api-menus/v2/menus/2";
 
 export const RECEIVED_MENU = "RECEIVED_MENU";
 export const REQUEST_POST = "REQUEST_POST";
