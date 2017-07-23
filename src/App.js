@@ -7,8 +7,9 @@ import baseurl from "./BaseUrl";
 import store from "./Store";
 import AppHeader from "./AppHeader.js";
 import { receivedMenu } from "./Actions";
-import Generic from "./components/page/Generic";
+
 import PostFetcher from "./components/PostFetcher";
+import PageFetcher from "./components/PageFetcher";
 
 class App extends Component {
   componentWillMount() {
@@ -37,7 +38,7 @@ class App extends Component {
         <Router>
           <div>
             <AppHeader />
-            <Route path="/:page/" component={Generic} />
+            <Route path="/:page/" component={PageFetcher} />
             <Route
               path="/(\d{4}/\d{2}/\d{2})/:postname/"
               component={PostFetcher}

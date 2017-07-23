@@ -2,10 +2,12 @@ import { compose, createStore, combineReducers } from "redux";
 
 import MenuReducer from "./reducers/Menu";
 import PostReducer from "./reducers/Post";
+import PageReducer from "./reducers/Page";
 
 const mainReducer = combineReducers({
   menu: MenuReducer,
-  posts: PostReducer
+  posts: PostReducer,
+  pages: PageReducer
 });
 
 const enhancers = compose(

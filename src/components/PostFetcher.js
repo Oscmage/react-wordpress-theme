@@ -1,9 +1,10 @@
 import React, { PureComponent } from "react";
 
 import { connect } from "react-redux";
-import baseurl from "./../BaseUrl";
+
 import { receivedPost } from "./../Actions";
 import Post from "./page/Post";
+import jsonRequest from "./../helpers/fetch";
 
 class PostFetcher extends PureComponent {
   constructor(props) {
@@ -23,22 +24,13 @@ class PostFetcher extends PureComponent {
   getPost = props => {
     const path = this.getSlug(props.location.pathname);
 
-    fetch(baseurl + "/wp-json/wp/v2/posts?slug=" + path)
-      .then(response => {
-        if (response.status !== 200) {
-          console.log(
-            "Looks like there was a problem. Status Code: " + response.status
-          );
-          return;
-        }
-
-        // Examine the text in the response
-        response.json().then(post => {
-          this.props.onReceivedPost(post[0]);
-          this.setState({ loading: false, id: post[0].id });
-        });
+    jsonRequest("/wp-json/wp/v2/posts?slug=" + path)
+      .then(post => {
+        this.props.onReceivedPost(post[0]);
+        this.setState({ loading: false, id: post[0].id });
       })
       .catch(function(err) {
+        this.setState({ loading: false });
         console.log("Fetch Error :-S", err);
       });
   };
