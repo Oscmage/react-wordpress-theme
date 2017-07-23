@@ -6,7 +6,7 @@ export default class Generic extends Component {
 
     return (
       <div className="App">
-        {page.title.rendered}
+        {page.content.rendered}
       </div>
     );
   }

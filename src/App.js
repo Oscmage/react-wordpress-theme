@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
 import "requestidlecallback";
-import jsonRequest from "./helpers/Fetch.js";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider, connect } from "react-redux";
 import store from "./Store";
-import { receivedMenu, requestAllPages, MENU_URL } from "./Actions";
+import { requestAllPages, requestMenu, requestGenericPage } from "./Actions";
 import styled from "styled-components";
 
 import Menu from "./components/menu/Menu";
@@ -16,43 +15,56 @@ import Footer from "./Footer";
 
 class App extends Component {
   componentWillMount() {
-    jsonRequest(MENU_URL)
-      .then(data => {
-        this.props.onReceivedMenu(data.items);
-      })
-      .catch(function(err) {
-        console.log("Fetch Error menu", err);
-      });
-
-    requestIdleCallback(() => {
-      this.props.onIdle();
-    });
+    this.props.initFetchMenu();
+    this.props.initPage(new URL(window.location.href));
   }
 
+  pageReady = () => {
+    return this.props.pageLoaded && this.props.menuLoaded;
+  };
+
   render() {
-    return (
-      <Router>
-        <AppWrapper>
-          <Menu />
-          <Route path="/:page/" component={PageFetcher} />
-          <Route
-            path="/(\d{4}/\d{2}/\d{2})/:postname/"
-            component={PostFetcher}
-          />
-          <Footer />
-        </AppWrapper>
-      </Router>
-    );
+    if (this.pageReady()) {
+      requestIdleCallback(() => {
+        this.props.onIdle();
+      });
+      return (
+        <Router>
+          <AppWrapper>
+            <Menu />
+            <Route
+              path="/(\d{4}/\d{2}/\d{2})/:postname/"
+              component={PostFetcher}
+            />
+            <Route path="/:page/" component={PageFetcher} />
+            <Route path="/" component={PageFetcher} />
+            <Footer />
+          </AppWrapper>
+        </Router>
+      );
+    } else {
+      return (
+        <div>Loading... Doing everything we can to prepare the page for u!</div>
+      );
+    }
+  }
+
+  componentDidMount() {
+    console.log(this.pageReady());
+    if (this.pageReady()) {
+    }
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  onReceivedMenu: menuList => dispatch(receivedMenu(menuList)),
+  initFetchMenu: () => dispatch(requestMenu()),
+  initPage: location => dispatch(requestGenericPage(location)),
   onIdle: () => dispatch(requestAllPages())
 });
 
 const mapStateToProps = state => ({
-  menu: state.menu
+  menuLoaded: state.menu.loaded,
+  pageLoaded: state.pages.pageLoaded
 });
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);

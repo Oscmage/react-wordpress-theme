@@ -2,28 +2,19 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 
-import { requestPage } from "./../Actions";
+import { getSlugFromLocation } from "./../helpers/Slug";
+import { requestGenericPage } from "./../Actions";
 import PageTemplateSwitcher from "./PageTemplateSwitcher";
 import styled from "styled-components";
 
-const getSlugFromLocation = location => {
-  return location.pathname.slice(1, -1);
-};
-
 class PageFetcher extends Component {
-  getPage = props => {
-    const slug = getSlugFromLocation(props.location);
-
-    this.props.onRequestPage(slug);
-  };
-
   componentWillMount() {
-    this.getPage(this.props);
+    this.props.onRequestPage(this.props.location);
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.location !== this.props.location) {
-      this.getPage(newProps);
+      this.props.onRequestPage(newProps.location);
     }
   }
 
@@ -48,7 +39,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onRequestPage: slug => dispatch(requestPage(slug))
+  onRequestPage: location => dispatch(requestGenericPage(location))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageFetcher);
