@@ -2,10 +2,14 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import MenuItem from "./MenuItem";
+import { requestMenu } from "./../../Actions";
 
 import { connect } from "react-redux";
 
 class Menu extends Component {
+  componentWillMount() {
+    this.props.getMenu();
+  }
   renderMenuItems = () => {
     const { menuList } = this.props;
 
@@ -22,28 +26,38 @@ class Menu extends Component {
   };
 
   render() {
-    return (
-      <Banner>
-        <Header>
-          <HomeLink to="/">
-            <Title>Test</Title>
-          </HomeLink>
-        </Header>
+    const { loading } = this.props;
+    console.log(loading);
+    if (!loading) {
+      return (
+        <Banner>
+          <Header>
+            <HomeLink to="/">
+              <Title>Test</Title>
+            </HomeLink>
+          </Header>
 
-        <Navigation>
-          <NavigationList>
-            {this.renderMenuItems()}
-          </NavigationList>
-        </Navigation>
-      </Banner>
-    );
+          <Navigation>
+            <NavigationList>
+              {this.renderMenuItems()}
+            </NavigationList>
+          </Navigation>
+        </Banner>
+      );
+    } else {
+      return null;
+    }
   }
 }
 const mapStateToProps = state => ({
   menuList: state.menu.menuList
 });
 
-export default connect(mapStateToProps)(Menu);
+const mapDispatchToProps = dispatch => ({
+  getMenu: () => dispatch(requestMenu())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
 
 const HomeLink = styled(Link)`
   text-decoration: none;

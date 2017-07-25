@@ -30,15 +30,17 @@ export const requestMenu = () => dispatch => {
       dispatch(receivedMenu(data.items));
     })
     .catch(function(err) {
-      console.log("Fetch Error menu", err);
+      //console.log("Fetch Error menu", err);
     });
 };
 
 export const receivedMenu = menuList => {
-  return {
-    type: RECEIVED_MENU,
-    menuList
-  };
+  setTimeout(() => {
+    return {
+      type: RECEIVED_MENU,
+      menuList
+    };
+  }, 10000);
 };
 
 export const requestAllPages = () => dispatch => {
@@ -62,6 +64,7 @@ export const requestAllPages = () => dispatch => {
 
 export const requestGenericPage = location => dispatch => {
   const slug = getSlugFromLocation(location);
+
   if (slug === HOME_SLUG) {
     dispatch(requestHomePage());
   } else {
