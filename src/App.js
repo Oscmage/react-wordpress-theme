@@ -5,23 +5,28 @@ import "requestidlecallback";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider, connect } from "react-redux";
 import store from "./Store";
-import styled from "styled-components";
 
 import Menu from "./components/menu/Menu";
 import PostFetcher from "./components/PostFetcher";
 import PageFetcher from "./components/PageFetcher";
 import Footer from "./Footer";
+import classNames from "classnames";
 
 class App extends Component {
-  padgeLoading = () => {
+  pageLoading = () => {
     return !(this.props.pageLoaded && this.props.menuLoaded);
   };
 
   render() {
     return (
       <Router>
-        <AppWrapper>
-          <Menu loading={this.padgeLoading()} />
+        <div
+          className={classNames(
+            { "app-wrapper": true },
+            { pageLoading: this.pageLoading() }
+          )}
+        >
+          <Menu loading={this.pageLoading()} />
           <Route
             path="/(\d{4}/\d{2}/\d{2})/:postname/"
             component={PostFetcher}
@@ -29,28 +34,18 @@ class App extends Component {
           <Route
             path="/:page/"
             render={props =>
-              <PageFetcher {...props} loading={this.padgeLoading()} />}
+              <PageFetcher {...props} loading={this.pageLoading()} />}
           />
           <Route
             path="/"
             render={props =>
-              <PageFetcher {...props} loading={this.padgeLoading()} />}
+              <PageFetcher {...props} loading={this.pageLoading()} />}
           />
-          <Footer loading={this.padgeLoading()} />
-        </AppWrapper>
+          <Footer loading={this.pageLoading()} />
+        </div>
       </Router>
     );
   }
-  /*
-  componentDidUpdate() {
-    if (this.padgeLoading()) {
-      console.log("rendered and now fetching");
-      requestIdleCallback(() => {
-        this.props.onIdle();
-      });
-    }
-  }
-  */
 }
 
 const mapStateToProps = state => ({
@@ -66,9 +61,3 @@ const ProviderApp = () =>
   </Provider>;
 
 export default ProviderApp;
-
-const AppWrapper = styled.div`
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-`;

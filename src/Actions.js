@@ -35,12 +35,10 @@ export const requestMenu = () => dispatch => {
 };
 
 export const receivedMenu = menuList => {
-  setTimeout(() => {
-    return {
-      type: RECEIVED_MENU,
-      menuList
-    };
-  }, 10000);
+  return {
+    type: RECEIVED_MENU,
+    menuList
+  };
 };
 
 export const requestAllPages = () => dispatch => {
@@ -76,6 +74,7 @@ export const requestHomePage = () => dispatch => {
   dispatch({
     type: REQUEST_HOME_PAGE
   });
+
   return jsonRequest(HOME_PAGE_URL)
     .then(page => {
       dispatch(receivedHomePage(page));

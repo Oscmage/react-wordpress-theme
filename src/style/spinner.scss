@@ -1,187 +1,88 @@
-// Variables
-$bar-color: #fff;
-$ball-color: #fff;
-$bg-color: #ea4961;
-
-html {
-  height: 100%;
-}
-body {
-  height: 100%;
-  background: $bg-color;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.loader {
+#loader {
   position: relative;
-  width: 75px;
-  height: 100px;
-
-  &__bar {
-    position: absolute;
-    bottom: 0;
-    width: 10px;
-    height: 50%;
-    background: $bar-color;
-    transform-origin: center bottom;
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, .2);
-
-    @for $i from 1 through 5 {
-      &:nth-child(#{$i}) {
-        left: ($i - 1) * 15px;
-        transform: scale(1, $i*.2);
-        animation: barUp#{$i} 4s infinite;
-      }
-    }
-  }
-
-  &__ball {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    width: 10px;
-    height: 10px;
-    background: $ball-color;
-    border-radius: 50%;
-    animation: ball 4s infinite;
-  }
+  width: 5.4em;
+  height: 5.4em;
+  background-color: #404456;
 }
 
-@keyframes ball {
+#hill {
+  position: absolute;
+  width: 7.1em;
+  height: 7.1em;
+  top: 1.7em;
+  left: 1.7em;
+  background-color: transparent;
+  border-left: .25em solid whitesmoke;
+  transform: rotate(45deg);
+}
+
+#hill:after {
+  content: '';
+  position: absolute;
+  width: 7.1em;
+  height: 7.1em;
+  left: 0;
+  background-color: #404456;
+}
+
+#box {
+  position: absolute;
+  left: 0;
+  bottom: -.1em;
+  width: 1em;
+  height: 1em;
+  background-color: transparent;
+  border: .25em solid whitesmoke;
+  border-radius: 15%;
+  transform: translate(0, -1em) rotate(-45deg);
+  animation: push 2.5s cubic-bezier(.79, 0, .47, .97) infinite;
+}
+
+@keyframes push {
   0% {
-    transform: translate(0, 0);
+    transform: translate(0, -1em) rotate(-45deg);
   }
   5% {
-    transform: translate(8px, -14px);
-  }
-  10% {
-    transform: translate(15px, -10px);
-  }
-  17% {
-    transform: translate(23px, -24px);
+    transform: translate(0, -1em) rotate(-50deg);
   }
   20% {
-    transform: translate(30px, -20px);
+    transform: translate(1em, -2em) rotate(47deg);
   }
-  27% {
-    transform: translate(38px, -34px);
+  25% {
+    transform: translate(1em, -2em) rotate(45deg);
   }
   30% {
-    transform: translate(45px, -30px);
+    transform: translate(1em, -2em) rotate(40deg);
   }
-  37% {
-    transform: translate(53px, -44px);
-  }
-  40% {
-    transform: translate(60px, -40px);
+  45% {
+    transform: translate(2em, -3em) rotate(137deg);
   }
   50% {
-    transform: translate(60px, 0);
+    transform: translate(2em, -3em) rotate(135deg);
   }
-  57% {
-    transform: translate(53px, -14px);
-  }
-  60% {
-    transform: translate(45px, -10px);
-  }
-  67% {
-    transform: translate(37px, -24px);
+  55% {
+    transform: translate(2em, -3em) rotate(130deg);
   }
   70% {
-    transform: translate(30px, -20px);
+    transform: translate(3em, -4em) rotate(217deg);
   }
-  77% {
-    transform: translate(22px, -34px);
-  }
-  80% {
-    transform: translate(15px, -30px);
-  }
-  87% {
-    transform: translate(7px, -44px);
-  }
-  90% {
-    transform: translate(0, -40px);
+  75% {
+    transform: translate(3em, -4em) rotate(220deg);
   }
   100% {
-    transform: translate(0, 0);
+    transform: translate(0, -1em) rotate(-225deg);
   }
 }
 
-@keyframes barUp1 {
-  0% {
-    transform: scale(1, .2);
-  }
-  40% {
-    transform: scale(1, .2);
-  }
-  50% {
-    transform: scale(1, 1);
-  }
-  90% {
-    transform: scale(1, 1);
-  }
-  100% {
-    transform: scale(1, .2);
-  }
+.app-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  flex-direction: column;
 }
-@keyframes barUp2 {
-  0% {
-    transform: scale(1, .4);
-  }
-  40% {
-    transform: scale(1, .4);
-  }
-  50% {
-    transform: scale(1, .8);
-  }
-  90% {
-    transform: scale(1, .8);
-  }
-  100% {
-    transform: scale(1, .4);
-  }
-}
-@keyframes barUp3 {
-  0% {
-    transform: scale(1, .6);
-  }
-  100% {
-    transform: scale(1, .6);
-  }
-}
-@keyframes barUp4 {
-  0% {
-    transform: scale(1, .8);
-  }
-  40% {
-    transform: scale(1, .8);
-  }
-  50% {
-    transform: scale(1, .4);
-  }
-  90% {
-    transform: scale(1, .4);
-  }
-  100% {
-    transform: scale(1, .8);
-  }
-}
-@keyframes barUp5 {
-  0% {
-    transform: scale(1, 1);
-  }
-  40% {
-    transform: scale(1, 1);
-  }
-  50% {
-    transform: scale(1, .2);
-  }
-  90% {
-    transform: scale(1, .2);
-  }
-  100% {
-    transform: scale(1, 1);
-  }
+
+.pageLoading {
+  background-color: #404456;
+  justify-content: center;
+  align-items: center;
 }

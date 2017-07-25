@@ -6,7 +6,7 @@ import { getSlugFromLocation } from "./../helpers/Slug";
 import { requestGenericPage } from "./../Actions";
 import PageTemplateSwitcher from "./PageTemplateSwitcher";
 import styled from "styled-components";
-import "./../style/spinner.scss";
+import "./../style/spinner.css";
 
 class PageFetcher extends Component {
   componentWillMount() {
@@ -24,13 +24,9 @@ class PageFetcher extends Component {
 
     if (!id || loading) {
       return (
-        <div className="loader">
-          <div className="loader__bar" />
-          <div className="loader__bar" />
-          <div className="loader__bar" />
-          <div className="loader__bar" />
-          <div className="loader__bar" />
-          <div className="loader__ball" />
+        <div id="loader">
+          <div id="box" />
+          <div id="hill" />
         </div>
       );
     }
