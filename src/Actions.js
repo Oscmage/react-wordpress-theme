@@ -24,7 +24,6 @@ export const requestMenu = () => dispatch => {
   dispatch({
     type: REQUEST_MENU
   });
-
   return jsonRequest(MENU_URL)
     .then(data => {
       dispatch(receivedMenu(data.items));

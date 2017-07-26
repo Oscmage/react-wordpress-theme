@@ -2,11 +2,20 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import MenuItem from "./MenuItem";
+import MenuItemChildren from "./MenuItemChildren";
 import { requestMenu } from "./../../Actions";
 
 import { connect } from "react-redux";
+import classNames from "classnames";
 
 class Menu extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMenu: false
+    };
+  }
+
   componentWillMount() {
     this.props.getMenu();
   }
@@ -14,35 +23,77 @@ class Menu extends Component {
     const { menuList } = this.props;
 
     return menuList.map(item => {
+      if (item.children) {
+        return (
+          <MenuItemChildren
+            key={item.id}
+            url={item.url}
+            children={item.children}
+            title={item.title}
+            closeMenu={this.toggleMenu}
+          />
+        );
+      }
+
       return (
         <MenuItem
           key={item.id}
           url={item.url}
-          children={item.children}
           title={item.title}
+          closeMenu={this.toggleMenu}
         />
       );
     });
   };
 
+  toggleMenu = () => {
+    this.setState({ showMenu: !this.state.showMenu });
+  };
+
   render() {
     const { loading } = this.props;
-    console.log(loading);
+    const { showMenu } = this.state;
+
     if (!loading) {
       return (
-        <Banner>
-          <Header>
-            <HomeLink to="/">
-              <Title>Test</Title>
-            </HomeLink>
-          </Header>
+        <div className="menu-container">
+          <div className="title-hamburger-container">
+            <header>
+              <HomeLink
+                onClick={() => {
+                  this.setState({ showMenu: false });
+                }}
+                to="/"
+              >
+                <h1 className="menu-title">Test</h1>
+              </HomeLink>
+            </header>
 
-          <Navigation>
-            <NavigationList>
+            <div className="menu-hamburger-container" onClick={this.toggleMenu}>
+              <button
+                className={classNames(
+                  { "hamburger hamburger--3dxy": true },
+                  { "is-active": showMenu }
+                )}
+                type="button"
+              >
+                <span className="hamburger-box">
+                  <span className="hamburger-inner" />
+                </span>
+              </button>
+            </div>
+          </div>
+          <nav
+            className={classNames(
+              { "menu-navigation": true },
+              { show: showMenu }
+            )}
+          >
+            <ul className="menu-navigation-list">
               {this.renderMenuItems()}
-            </NavigationList>
-          </Navigation>
-        </Banner>
+            </ul>
+          </nav>
+        </div>
       );
     } else {
       return null;
@@ -62,28 +113,3 @@ export default connect(mapStateToProps, mapDispatchToProps)(Menu);
 const HomeLink = styled(Link)`
   text-decoration: none;
 `;
-
-const Banner = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  background-color: #ffffff;
-  box-shadow: 0 0 9px 2px rgba(0, 0, 0, 0.3);
-`;
-
-const Header = styled.header`
-  display: flex;
-  padding: 0 1rem;
-`;
-
-const Title = styled.h1`
-  font-family: Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
-  margin: 0;
-  font-size: 3rem;
-  font-weight: 500;
-  color: #4a4a4a;
-`;
-
-const NavigationList = styled.ul`display: flex;`;
-
-const Navigation = styled.nav`display: flex;`;

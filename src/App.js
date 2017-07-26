@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
-import "requestidlecallback";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider, connect } from "react-redux";
@@ -11,6 +9,7 @@ import PostFetcher from "./components/PostFetcher";
 import PageFetcher from "./components/PageFetcher";
 import Footer from "./Footer";
 import classNames from "classnames";
+import "./style/main.scss";
 
 class App extends Component {
   pageLoading = () => {
@@ -37,6 +36,7 @@ class App extends Component {
               <PageFetcher {...props} loading={this.pageLoading()} />}
           />
           <Route
+            exact
             path="/"
             render={props =>
               <PageFetcher {...props} loading={this.pageLoading()} />}

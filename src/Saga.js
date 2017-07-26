@@ -1,4 +1,4 @@
-import { put, select, take } from "redux-saga/effects";
+import { put, take } from "redux-saga/effects";
 
 import {
   RECEIVED_MENU,
@@ -15,13 +15,11 @@ export default function* mySaga() {
     RECEIVED_PAGE,
     RECEIVED_POST
   ]);
-  console.log("result first", result.type);
   if (result.type === RECEIVED_MENU) {
-    const res = yield take([RECEIVED_HOME_PAGE, RECEIVED_PAGE, RECEIVED_POST]);
-    console.log("result second", res.type);
+    yield take([RECEIVED_HOME_PAGE, RECEIVED_PAGE, RECEIVED_POST]);
   } else {
-    const res = yield take(RECEIVED_MENU);
-    console.log("result second", res.type);
+    yield take(RECEIVED_MENU);
   }
-  console.log("Now we should get all pages....");
+
+  yield put(requestAllPages());
 }

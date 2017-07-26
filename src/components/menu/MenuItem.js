@@ -3,41 +3,18 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export default class MenuItem extends Component {
-  renderChildren = children => {
-    return children.map(child => {
-      return (
-        <NavigationItem key={child.id} to={new URL(child.url).pathname}>
-          {child.title}
-        </NavigationItem>
-      );
-    });
-  };
-
   render() {
-    const { url, title, children } = this.props;
-
-    if (children) {
-      return (
-        <NavigationItemWithChildren>
-          {title}
-          {this.renderChildren(children)}
-        </NavigationItemWithChildren>
-      );
-    }
+    const { url, title, closeMenu } = this.props;
 
     return (
-      <ListItem>
-        <NavigationItem to={new URL(url).pathname}>
+      <li className="navigation-list-item">
+        <NavigationItem onClick={closeMenu} to={new URL(url).pathname}>
           {title}
         </NavigationItem>
-      </ListItem>
+      </li>
     );
   }
 }
-
-const NavigationItemWithChildren = styled.ul``;
-
-const ListItem = styled.li``;
 
 const NavigationItem = styled(Link)`
   width: 200px;

@@ -6,7 +6,7 @@ import { getSlugFromLocation } from "./../helpers/Slug";
 import { requestGenericPage } from "./../Actions";
 import PageTemplateSwitcher from "./PageTemplateSwitcher";
 import styled from "styled-components";
-import "./../style/spinner.css";
+import "./../style/spinner.scss";
 
 class PageFetcher extends Component {
   componentWillMount() {

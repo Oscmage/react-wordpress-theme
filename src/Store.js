@@ -16,8 +16,7 @@ const mainReducer = combineReducers({
 });
 
 const enhancers = compose(
-  applyMiddleware(thunk),
-  applyMiddleware(sagaMiddleware),
+  applyMiddleware(sagaMiddleware, thunk),
   window.__REDUX_DEVTOOLS_EXTENSION__
     ? window.__REDUX_DEVTOOLS_EXTENSION__()
     : f => f
