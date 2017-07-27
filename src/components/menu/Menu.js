@@ -28,7 +28,7 @@ class Menu extends Component {
           <MenuItemChildren
             key={item.id}
             url={item.url}
-            children={item.children}
+            items={item.children}
             title={item.title}
             closeMenu={this.toggleMenu}
           />
@@ -110,6 +110,6 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu);
 
-const HomeLink = styled(Link)`
+const HomeLink = styled(Link) `
   text-decoration: none;
 `;

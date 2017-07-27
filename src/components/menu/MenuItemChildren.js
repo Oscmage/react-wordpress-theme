@@ -11,19 +11,17 @@ export default class MenuItemChildren extends Component {
     };
   }
 
-  renderChildren = children => {
-    return children.map(child => {
-      return (
-        <li key={child.id}>
-          <NavigationItem
-            onClick={this.toggleAndClose}
-            to={new URL(child.url).pathname}
-          >
-            {child.title}
-          </NavigationItem>
-        </li>
-      );
-    });
+  renderChildren = items => {
+    items.map(child =>
+      <li key={child.id}>
+        <NavigationItem
+          onClick={this.toggleAndClose}
+          to={new URL(child.url).pathname}
+        >
+          {child.title}
+        </NavigationItem>
+      </li>
+    );
   };
 
   toggleAndClose = () => {
@@ -36,7 +34,7 @@ export default class MenuItemChildren extends Component {
   };
 
   render() {
-    const { title, children } = this.props;
+    const { title, items } = this.props;
     const { showChildren } = this.state;
 
     return (
@@ -51,13 +49,13 @@ export default class MenuItemChildren extends Component {
         <li>
           {title} >>
         </li>
-        {this.renderChildren(children)}
+        {this.renderChildren(items)}
       </ul>
     );
   }
 }
 
-const NavigationItem = styled(Link)`
+const NavigationItem = styled(Link) `
   width: 200px;
   display: flex;
   align-items: center;
