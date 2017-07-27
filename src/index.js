@@ -3,6 +3,14 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { injectGlobal } from "styled-components";
+
+
+
+
+
+
+
+
 // eslint-disable-next-line
 injectGlobal`
     *, *:before, *:after {

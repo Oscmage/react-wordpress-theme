@@ -14,6 +14,7 @@ export const REQUEST_POST = "REQUEST_POST";
 export const REQUEST_PAGE = "REQUEST_PAGE";
 export const REQUEST_HOME_PAGE = "REQUEST_HOME_PAGE";
 export const REQUEST_ALL_PAGES = "REQUEST_ALL_PAGES";
+export const REQUEST_SUBSCRIBE_EMAIL = "REQUEST_SUBSCRIBE_EMAIL";
 
 export const RECEIVED_MENU = "RECEIVED_MENU";
 export const RECEIVED_POST = "RECEIVED_POST";
@@ -133,5 +134,11 @@ export const receivedPost = post => {
   return {
     type: RECEIVED_POST,
     post
+  };
+};
+
+export const subscribeToNewsLetter = () => {
+  return {
+    type: REQUEST_SUBSCRIBE_EMAIL
   };
 };

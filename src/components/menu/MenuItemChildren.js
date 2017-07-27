@@ -12,7 +12,8 @@ export default class MenuItemChildren extends Component {
   }
 
   renderChildren = items => {
-    items.map(child =>
+
+    return items.map(child =>
       <li key={child.id}>
         <NavigationItem
           onClick={this.toggleAndClose}
