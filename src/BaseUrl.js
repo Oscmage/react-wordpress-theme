@@ -1,3 +1,3 @@
-export const baseurl = "http://localhost:8888";
+export const baseurl = "http://localhost";
 
 export default baseurl;

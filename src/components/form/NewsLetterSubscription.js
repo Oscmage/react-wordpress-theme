@@ -6,7 +6,8 @@ export class NewsLetterSubscription extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ""
+      value: "",
+      valid: true
     };
   }
 
@@ -15,21 +16,25 @@ export class NewsLetterSubscription extends Component {
     const { value } = this.state;
     const { onSubscribe } = this.props;
 
+    console.log("whohow");
     if (value.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$/)) {
       onSubscribe();
-    } else {
     }
   };
 
   setInputValue = evt => {
-    this.setState({ value: evt.target.value });
+    this.setState({
+      value: evt.target.value
+    });
   };
 
   render() {
+    const { valid } = this.state;
+
     return (
-      <form onSubmit={this.validateAndSend}>
+      <form className="subscription-form" onSubmit={this.validateAndSend}>
         <input
-          className="subscribe-input"
+          className={valid ? "subscribe-input" : "subscribe-input shake"}
           type="email"
           placeholder="Emilia@gmail.com"
           name="email"

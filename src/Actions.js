@@ -7,7 +7,7 @@ export const PAGE_SLUG_URL = "/wp-json/wp/v2/pages?slug=";
 export const POST_SLUG_URL = "/wp-json/wp/v2/posts?slug=";
 export const ALL_PAGES_URL = "/wp-json/wp/v2/pages/";
 export const HOME_PAGE_URL = "/wp-json/wp/v2/frontpage";
-export const MENU_URL = "/wp-json/wp-api-menus/v2/menus/2";
+export const MENU_URL = "/wp-json/wp-api-menus/v2/menus/3";
 
 export const REQUEST_MENU = "REQUEST_MENU";
 export const REQUEST_POST = "REQUEST_POST";

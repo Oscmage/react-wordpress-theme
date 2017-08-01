@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
@@ -12,15 +11,11 @@ export default class MenuItemChildren extends Component {
   }
 
   renderChildren = items => {
-
     return items.map(child =>
       <li key={child.id}>
-        <NavigationItem
-          onClick={this.toggleAndClose}
-          to={new URL(child.url).pathname}
-        >
+        <Link onClick={this.toggleAndClose} to={new URL(child.url).pathname}>
           {child.title}
-        </NavigationItem>
+        </Link>
       </li>
     );
   };
@@ -55,22 +50,3 @@ export default class MenuItemChildren extends Component {
     );
   }
 }
-
-const NavigationItem = styled(Link) `
-  width: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background-color: #c4c4c4;
-  text-decoration: none;
-  color: #4a4a4a;
-  font-family: AvenirNext;
-  font-weight: bold;
-  font-size: 1.25rem;
-  :hover {
-    background-color: #E4E4E4;
-  }
-  :active {
-    background-color: #D4D4D4;
-  }
-`;

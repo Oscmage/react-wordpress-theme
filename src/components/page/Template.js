@@ -4,6 +4,7 @@ export default class Template extends Component {
   render() {
     const { page } = this.props;
 
+    console.log(page);
     return (
       <div className="App">
         klsdkljaksdljaslkd

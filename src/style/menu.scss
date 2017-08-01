@@ -1,9 +1,13 @@
+.menu-container-outer {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  background-color: #ffffff;
+}
 .menu-container {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  background-color: #ffffff;
-  box-shadow: 0 0 9px 2px rgba(0, 0, 0, 0.3);
 }
 
 .menu-container header {
@@ -61,8 +65,21 @@
     color: rgba(#222, 0.7);
   }
 }
+
+.navigation-list-item {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  color: #169b4f;
+}
+
+.navigation-list-item a {
+  color: #169b4f;
+}
+
 .navigation-list-item.has-children li:first-of-type {
   display: flex;
+  flex-direction: column;
   padding: $medium-padding;
 }
 
