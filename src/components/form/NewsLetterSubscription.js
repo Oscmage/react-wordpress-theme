@@ -6,25 +6,58 @@ export class NewsLetterSubscription extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "",
+      firstName: "",
+      surname: "",
+      email: "",
       valid: true
     };
   }
 
   validateAndSend = event => {
     event.preventDefault();
-    const { value } = this.state;
+    const { email, firstName, surname } = this.state;
     const { onSubscribe } = this.props;
 
-    console.log("whohow");
-    if (value.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$/)) {
-      onSubscribe();
+    let valid = true;
+
+    if (!email.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$/)) {
+      //
+      console.log("invalid email!");
+      valid = false;
+    }
+
+    if (firstName.length < 2) {
+      // Shake field
+      valid = false;
+      console.log("invalid firstName!");
+    }
+
+    if (surname.length < 2) {
+      // shake field
+      console.log("invalid surname!");
+      valid = false;
+    }
+
+    if (valid) {
+      onSubscribe(firstName, surname, email);
     }
   };
 
-  setInputValue = evt => {
+  setInputEmail = evt => {
     this.setState({
-      value: evt.target.value
+      email: evt.target.value
+    });
+  };
+
+  setInputFirstName = evt => {
+    this.setState({
+      firstName: evt.target.value
+    });
+  };
+
+  setInputSurname = evt => {
+    this.setState({
+      surname: evt.target.value
     });
   };
 
@@ -34,11 +67,21 @@ export class NewsLetterSubscription extends Component {
     return (
       <form className="subscription-form" onSubmit={this.validateAndSend}>
         <input
+          placeholder="Förnamn"
+          name="first_name"
+          onInput={this.setInputFirstName}
+        />
+        <input
+          placeholder="Efternamn"
+          name="surname"
+          onInput={this.setInputSurname}
+        />
+        <input
           className={valid ? "subscribe-input" : "subscribe-input shake"}
           type="email"
           placeholder="Emilia@gmail.com"
           name="email"
-          onInput={this.setInputValue}
+          onInput={this.setInputEmail}
           required
         />
         <button>subscribe</button>
@@ -48,7 +91,8 @@ export class NewsLetterSubscription extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onSubscribe: () => dispatch(subscribeToNewsLetter())
+  onSubscribe: (firstName, surName, email) =>
+    dispatch(subscribeToNewsLetter(firstName, surName, email))
 });
 
 export default connect(null, mapDispatchToProps)(NewsLetterSubscription);

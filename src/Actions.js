@@ -1,4 +1,4 @@
-import jsonRequest from "./helpers/Fetch";
+import { getRequest, postRequest } from "./helpers/Fetch";
 
 import { HOME_SLUG } from "./HomeSlug";
 import { getSlugFromLocation } from "./helpers/Slug";
@@ -7,6 +7,7 @@ export const PAGE_SLUG_URL = "/wp-json/wp/v2/pages?slug=";
 export const POST_SLUG_URL = "/wp-json/wp/v2/posts?slug=";
 export const ALL_PAGES_URL = "/wp-json/wp/v2/pages/";
 export const HOME_PAGE_URL = "/wp-json/wp/v2/frontpage";
+export const SUBSCRIBE_URL = "/wp-json/wp/v2/newsletter";
 export const MENU_URL = "/wp-json/wp-api-menus/v2/menus/3";
 
 export const REQUEST_MENU = "REQUEST_MENU";
@@ -20,12 +21,13 @@ export const RECEIVED_MENU = "RECEIVED_MENU";
 export const RECEIVED_POST = "RECEIVED_POST";
 export const RECEIVED_PAGE = "RECEIVED_PAGE";
 export const RECEIVED_HOME_PAGE = "RECEIVED_HOME_PAGE";
+export const RECEIVED_SUBSCRIBE_EMAIL = "RECEIVED_SUBSCRIBE_EMAIL";
 
 export const requestMenu = () => dispatch => {
   dispatch({
     type: REQUEST_MENU
   });
-  return jsonRequest(MENU_URL)
+  return getRequest(MENU_URL)
     .then(data => {
       dispatch(receivedMenu(data.items));
     })
@@ -45,7 +47,7 @@ export const requestAllPages = () => dispatch => {
   dispatch({
     type: REQUEST_ALL_PAGES
   });
-  return jsonRequest(ALL_PAGES_URL)
+  return getRequest(ALL_PAGES_URL)
     .then(pages => {
       pages.forEach(page => {
         if (new URL(page.link).pathname === "/") {
@@ -75,7 +77,7 @@ export const requestHomePage = () => dispatch => {
     type: REQUEST_HOME_PAGE
   });
 
-  return jsonRequest(HOME_PAGE_URL)
+  return getRequest(HOME_PAGE_URL)
     .then(page => {
       dispatch(receivedHomePage(page));
     })
@@ -90,7 +92,7 @@ export const requestPage = slug => dispatch => {
     slug
   });
 
-  return jsonRequest(PAGE_SLUG_URL + slug)
+  return getRequest(PAGE_SLUG_URL + slug)
     .then(([page]) => {
       dispatch(receivedPage(page));
       return page.id;
@@ -120,7 +122,7 @@ export const requestPost = slug => dispatch => {
     slug
   });
 
-  return jsonRequest(POST_SLUG_URL + slug)
+  return getRequest(POST_SLUG_URL + slug)
     .then(([post]) => {
       dispatch(receivedPost(post));
       return post.id;
@@ -137,8 +139,31 @@ export const receivedPost = post => {
   };
 };
 
-export const subscribeToNewsLetter = () => {
-  return {
+export const subscribeToNewsLetter = (
+  firstName,
+  surname,
+  email
+) => dispatch => {
+  dispatch({
     type: REQUEST_SUBSCRIBE_EMAIL
+  });
+
+  var data = new URLSearchParams();
+  data.append("first_name", firstName);
+  data.append("surname", surname);
+  data.append("email", email);
+
+  return postRequest(SUBSCRIBE_URL, data)
+    .then(() => {
+      dispatch(receivedSubscribeEmail(true));
+    })
+    .catch(error => {
+      // Skicka error shake stuff
+    });
+};
+
+export const receivedSubscribeEmail = bool => {
+  return {
+    type: RECEIVED_SUBSCRIBE_EMAIL
   };
 };
