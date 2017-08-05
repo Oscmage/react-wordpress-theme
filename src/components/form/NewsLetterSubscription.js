@@ -9,81 +9,190 @@ export class NewsLetterSubscription extends Component {
       firstName: "",
       surname: "",
       email: "",
-      valid: true
+      validFirstName: false,
+      validSurname: false,
+      validEmail: false,
+      visitedFirstName: false,
+      visitedSurname: false,
+      visitedEmail: false
     };
   }
 
   validateAndSend = event => {
     event.preventDefault();
-    const { email, firstName, surname } = this.state;
+    const { validEmail, validFirstName, validSurname } = this.state;
     const { onSubscribe } = this.props;
 
-    let valid = true;
-
-    if (!email.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$/)) {
-      //
-      console.log("invalid email!");
-      valid = false;
+    if (validEmail && validFirstName && validSurname) {
+      //onSubscribe(firstName, surname, email);
     }
+  };
 
-    if (firstName.length < 2) {
-      // Shake field
-      valid = false;
-      console.log("invalid firstName!");
-    }
+  validateEmail = () => {
+    this.setState({
+      validEmail: this.state.email.match(
+        /^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$/
+      ),
+      visitedEmail: true
+    });
+  };
 
-    if (surname.length < 2) {
-      // shake field
-      console.log("invalid surname!");
-      valid = false;
-    }
+  validateSurname = () => {
+    this.setState({
+      validSurname: this.state.surname.length >= 2,
+      visitedSurname: true
+    });
+  };
 
-    if (valid) {
-      onSubscribe(firstName, surname, email);
-    }
+  validateFirstName = () => {
+    this.setState({
+      validFirstName: this.state.firstName.length >= 2,
+      visitedFirstName: true
+    });
+    console.log(this.state.validFirstName);
   };
 
   setInputEmail = evt => {
     this.setState({
       email: evt.target.value
     });
+    if (this.state.visitedEmail) {
+      this.validateEmail();
+    }
   };
 
   setInputFirstName = evt => {
     this.setState({
       firstName: evt.target.value
     });
+    if (this.state.visitedFirstName) {
+      this.validateFirstName();
+    }
   };
 
   setInputSurname = evt => {
+    evt.target.setCustomValidity("");
     this.setState({
       surname: evt.target.value
     });
+    if (this.state.visitedSurname) {
+      this.validateSurname();
+    }
+  };
+
+  renderLastNameInput = () => {
+    const { validSurname, visitedSurname } = this.state;
+
+    const inputField = (
+      <input
+        placeholder="Efternamn"
+        className={
+          visitedSurname && !validSurname
+            ? "subscribe-input shake"
+            : "subscribe-input"
+        }
+        name="surname"
+        onInput={this.setInputSurname}
+        onBlur={this.validateSurname}
+        onInvalid={this.test}
+        required
+      />
+    );
+    if (!validSurname && visitedSurname) {
+      return (
+        <div className="wrapper-input-required">
+          {inputField}
+          <p key={1}>feeeeeeeeel</p>
+        </div>
+      );
+    } else {
+      return (
+        <div className="wrapper-input-required">
+          {inputField}
+        </div>
+      );
+    }
+  };
+
+  renderFirstNameInput = () => {
+    const { validFirstName, visitedFirstName } = this.state;
+
+    const inputField = (
+      <input
+        placeholder="Förnamn"
+        className={
+          visitedFirstName && !validFirstName
+            ? "subscribe-input shake"
+            : "subscribe-input"
+        }
+        name="first_name"
+        onInput={this.setInputFirstName}
+        onBlur={this.validateFirstName}
+        required
+      />
+    );
+
+    if (!validFirstName && visitedFirstName) {
+      return (
+        <div className="wrapper-input-required">
+          {inputField}
+          <p>feeeeeeeeel2</p>
+        </div>
+      );
+    } else {
+      return (
+        <div className="wrapper-input-required">
+          {inputField}
+        </div>
+      );
+    }
+  };
+
+  renderEmailInput = () => {
+    const { validEmail, visitedEmail } = this.state;
+
+    const inputField = (
+      <input
+        className={
+          visitedEmail && !validEmail
+            ? "subscribe-input shake"
+            : "subscribe-input"
+        }
+        type="email"
+        placeholder="Emilia@gmail.com"
+        name="email"
+        onInput={this.setInputEmail}
+        onBlur={this.validateEmail}
+        required
+      />
+    );
+
+    if (!validEmail && visitedEmail) {
+      return (
+        <div className="wrapper-input-required">
+          {inputField}
+          <p>feeeeeeeeel3</p>
+        </div>
+      );
+    } else {
+      return (
+        <div className="wrapper-input-required">
+          {inputField}
+        </div>
+      );
+    }
   };
 
   render() {
-    const { valid } = this.state;
-
     return (
-      <form className="subscription-form" onSubmit={this.validateAndSend}>
-        <input
-          placeholder="Förnamn"
-          name="first_name"
-          onInput={this.setInputFirstName}
-        />
-        <input
-          placeholder="Efternamn"
-          name="surname"
-          onInput={this.setInputSurname}
-        />
-        <input
-          className={valid ? "subscribe-input" : "subscribe-input shake"}
-          type="email"
-          placeholder="Emilia@gmail.com"
-          name="email"
-          onInput={this.setInputEmail}
-          required
-        />
+      <form
+        className="subscription-form"
+        onSubmit={this.validateAndSend}
+        method="post"
+      >
+        {this.renderFirstNameInput()}
+        {this.renderLastNameInput()}
+        {this.renderEmailInput()}
         <button>subscribe</button>
       </form>
     );

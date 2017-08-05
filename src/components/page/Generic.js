@@ -3,14 +3,14 @@ import React, { Component } from "react";
 export default class Generic extends Component {
   render() {
     const { page } = this.props;
-    const featuredImageSrc = page.better_featured_image.source_url;
+    const featuredImage = page.better_featured_image;
 
-    if (featuredImageSrc) {
+    if (featuredImage) {
       return (
         <div className="App">
           <div
             className="feature-img"
-            style={{ backgroundImage: "url(" + featuredImageSrc + ")" }}
+            style={{ backgroundImage: "url(" + featuredImage.source_url + ")" }}
           >
             {page.content.rendered}
           </div>
