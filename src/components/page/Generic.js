@@ -11,9 +11,11 @@ export default class Generic extends Component {
           <div
             className="feature-img"
             style={{ backgroundImage: "url(" + featuredImage.source_url + ")" }}
-          >
-            {page.content.rendered}
-          </div>
+          />
+          <div
+            className="text-content col-xs-12 col-sm-12 col-md-8 col-lg-6"
+            dangerouslySetInnerHTML={{ __html: page.content.rendered }}
+          />
         </div>
       );
     }

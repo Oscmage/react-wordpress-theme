@@ -9,6 +9,7 @@ export const ALL_PAGES_URL = "/wp-json/wp/v2/pages/";
 export const HOME_PAGE_URL = "/wp-json/wp/v2/frontpage";
 export const SUBSCRIBE_URL = "/wp-json/wp/v2/newsletter";
 export const MENU_URL = "/wp-json/wp-api-menus/v2/menus/3";
+export const PAGES_EXTRA_FIELDS_URL = "/wp-json/acf/v3/pages/";
 
 export const REQUEST_MENU = "REQUEST_MENU";
 export const REQUEST_POST = "REQUEST_POST";
@@ -16,12 +17,14 @@ export const REQUEST_PAGE = "REQUEST_PAGE";
 export const REQUEST_HOME_PAGE = "REQUEST_HOME_PAGE";
 export const REQUEST_ALL_PAGES = "REQUEST_ALL_PAGES";
 export const REQUEST_SUBSCRIBE_EMAIL = "REQUEST_SUBSCRIBE_EMAIL";
+export const REQUEST_PAGE_EXTRA = "REQUEST_PAGE_EXTRA";
 
 export const RECEIVED_MENU = "RECEIVED_MENU";
 export const RECEIVED_POST = "RECEIVED_POST";
 export const RECEIVED_PAGE = "RECEIVED_PAGE";
 export const RECEIVED_HOME_PAGE = "RECEIVED_HOME_PAGE";
 export const RECEIVED_SUBSCRIBE_EMAIL = "RECEIVED_SUBSCRIBE_EMAIL";
+export const RECEIVED_PAGE_EXTRA = "RECEIVED_PAGE_EXTRA";
 
 export const requestMenu = () => dispatch => {
   dispatch({
@@ -95,11 +98,36 @@ export const requestPage = slug => dispatch => {
   return getRequest(PAGE_SLUG_URL + slug)
     .then(([page]) => {
       dispatch(receivedPage(page));
+      dispatch(requestPageExtra(page.id));
       return page.id;
     })
     .catch(error => {
       // dispatch(errpssoso)
     });
+};
+
+export const requestPageExtra = pageId => dispatch => {
+  dispatch({
+    type: REQUEST_PAGE_EXTRA
+  });
+
+  return getRequest(PAGES_EXTRA_FIELDS_URL + pageId)
+    .then(fields => {
+      console.log(fields.acf);
+      dispatch(receivedPageExtra(pageId, fields.acf));
+      return fields.acf;
+    })
+    .catch(error => {
+      // dispatch(errpssoso)
+    });
+};
+
+export const receivedPageExtra = (pageId, acf) => {
+  return {
+    type: RECEIVED_PAGE_EXTRA,
+    pageId,
+    acf
+  };
 };
 
 export const receivedPage = page => {

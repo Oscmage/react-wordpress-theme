@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import Generic from "./page/Generic";
 import Template from "./page/Template";
+import Golfbutiken from "./page/Golfbutiken";
 
 class PageTemplateSwitcher extends Component {
   render() {
@@ -12,6 +13,8 @@ class PageTemplateSwitcher extends Component {
     switch (page.template) {
       case "template.php":
         return <Template {...this.props} />;
+      case "templates/golfbutiken.php":
+        return <Golfbutiken {...this.props} />;
       default:
         return <Generic {...this.props} />;
     }

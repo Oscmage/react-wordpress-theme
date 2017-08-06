@@ -1,15 +1,62 @@
 form {
   display: flex;
   justify-content: center;
-  padding: 60px;
+  padding: 0 0 $x-large-padding 0;
+}
+
+form button {
+  background-color: #022b3a;
+  color: white;
+  width: 100%;
+  border-radius: 2px;
+  padding: $small-padding;
+  border: none;
+}
+
+form input {
+  border-radius: 2px;
+  border: none;
+  padding: $x-small-padding;
+  outline: none;
 }
 
 .subscription-form {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   color: black;
 }
 
+.wrapper-input-required {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 $small-padding 0;
+}
+
+.wrapper-input-required-inner {
+  position: relative;
+}
+
+.wrapper-input-required-inner input {
+  width: 280px;
+}
+
+.wrapper-input-required p {
+  margin: 0;
+  padding: $x-small-padding;
+}
+
+.subscribe-input {
+  border: 2px solid gray;
+}
+
 .shake {
-  border: 1px solid red;
+  border-color: red;
+}
+
+.ok {
+  border-color: pink;
+}
+
+h3 {
+  color: white;
 }

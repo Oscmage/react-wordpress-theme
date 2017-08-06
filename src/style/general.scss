@@ -4,3 +4,15 @@
   background-position: center;
   background-size: cover;
 }
+
+.App {
+  overflow: auto;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+}
+
+.text-content {
+  padding-top: $medium-padding;
+  padding-bottom: $medium-padding;
+}

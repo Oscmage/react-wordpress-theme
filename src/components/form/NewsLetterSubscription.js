@@ -25,6 +25,10 @@ export class NewsLetterSubscription extends Component {
 
     if (validEmail && validFirstName && validSurname) {
       //onSubscribe(firstName, surname, email);
+    } else {
+      this.validateFirstName();
+      this.validateSurname();
+      this.validateEmail();
     }
   };
 
@@ -49,10 +53,10 @@ export class NewsLetterSubscription extends Component {
       validFirstName: this.state.firstName.length >= 2,
       visitedFirstName: true
     });
-    console.log(this.state.validFirstName);
   };
 
   setInputEmail = evt => {
+    evt.target.setCustomValidity("");
     this.setState({
       email: evt.target.value
     });
@@ -62,6 +66,7 @@ export class NewsLetterSubscription extends Component {
   };
 
   setInputFirstName = evt => {
+    evt.target.setCustomValidity("");
     this.setState({
       firstName: evt.target.value
     });
@@ -85,12 +90,8 @@ export class NewsLetterSubscription extends Component {
 
     const inputField = (
       <input
-        placeholder="Efternamn"
-        className={
-          visitedSurname && !validSurname
-            ? "subscribe-input shake"
-            : "subscribe-input"
-        }
+        placeholder="Efternamn *"
+        className={this.getClass(visitedSurname, validSurname)}
         name="surname"
         onInput={this.setInputSurname}
         onBlur={this.validateSurname}
@@ -98,20 +99,12 @@ export class NewsLetterSubscription extends Component {
         required
       />
     );
-    if (!validSurname && visitedSurname) {
-      return (
-        <div className="wrapper-input-required">
-          {inputField}
-          <p key={1}>feeeeeeeeel</p>
-        </div>
-      );
-    } else {
-      return (
-        <div className="wrapper-input-required">
-          {inputField}
-        </div>
-      );
-    }
+    return this.renderRequiredField(
+      validSurname,
+      visitedSurname,
+      inputField,
+      "Last name needs to be longer"
+    );
   };
 
   renderFirstNameInput = () => {
@@ -119,33 +112,31 @@ export class NewsLetterSubscription extends Component {
 
     const inputField = (
       <input
-        placeholder="Förnamn"
-        className={
-          visitedFirstName && !validFirstName
-            ? "subscribe-input shake"
-            : "subscribe-input"
-        }
+        placeholder="Förnamn *"
+        className={this.getClass(visitedFirstName, validFirstName)}
         name="first_name"
         onInput={this.setInputFirstName}
         onBlur={this.validateFirstName}
         required
       />
     );
+    return this.renderRequiredField(
+      validFirstName,
+      visitedFirstName,
+      inputField,
+      "First name needs to be longer"
+    );
+  };
 
-    if (!validFirstName && visitedFirstName) {
-      return (
-        <div className="wrapper-input-required">
-          {inputField}
-          <p>feeeeeeeeel2</p>
-        </div>
-      );
-    } else {
-      return (
-        <div className="wrapper-input-required">
-          {inputField}
-        </div>
-      );
+  getClass = (visited, valid) => {
+    if (visited) {
+      if (valid) {
+        return "subscribe-input ok";
+      } else {
+        return "subscribe-input shake";
+      }
     }
+    return "subscribe-input";
   };
 
   renderEmailInput = () => {
@@ -153,31 +144,41 @@ export class NewsLetterSubscription extends Component {
 
     const inputField = (
       <input
-        className={
-          visitedEmail && !validEmail
-            ? "subscribe-input shake"
-            : "subscribe-input"
-        }
+        className={this.getClass(visitedEmail, validEmail)}
         type="email"
-        placeholder="Emilia@gmail.com"
+        placeholder="Emilia@gmail.com *"
         name="email"
         onInput={this.setInputEmail}
         onBlur={this.validateEmail}
         required
       />
     );
+    return this.renderRequiredField(
+      validEmail,
+      visitedEmail,
+      inputField,
+      "Bad email address"
+    );
+  };
 
-    if (!validEmail && visitedEmail) {
+  renderRequiredField = (valid, visited, inputField, invalidMessage) => {
+    if (!valid && visited) {
       return (
         <div className="wrapper-input-required">
-          {inputField}
-          <p>feeeeeeeeel3</p>
+          <div className="wrapper-input-required-inner">
+            {inputField}
+          </div>
+          <p>
+            {invalidMessage}
+          </p>
         </div>
       );
     } else {
       return (
         <div className="wrapper-input-required">
-          {inputField}
+          <div className="wrapper-input-required-inner">
+            {inputField}
+          </div>
         </div>
       );
     }
@@ -188,12 +189,15 @@ export class NewsLetterSubscription extends Component {
       <form
         className="subscription-form"
         onSubmit={this.validateAndSend}
-        method="post"
+        noValidate
       >
+        <h3>Anmälan nyhetsbrev</h3>
         {this.renderFirstNameInput()}
         {this.renderLastNameInput()}
         {this.renderEmailInput()}
-        <button>subscribe</button>
+        <div>
+          <button>Prenumerera</button>
+        </div>
       </form>
     );
   }
