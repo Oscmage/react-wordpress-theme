@@ -28,8 +28,6 @@ export default class Golfbutiken extends Component {
     const { page } = this.props;
     const featuredImage = page.better_featured_image;
     const list = page.acf.repeater;
-    // TODO: DO SOMETHING
-    console.log(page);
 
     return (
       <div className="App">

@@ -113,7 +113,6 @@ export const requestPageExtra = pageId => dispatch => {
 
   return getRequest(PAGES_EXTRA_FIELDS_URL + pageId)
     .then(fields => {
-      console.log(fields.acf);
       dispatch(receivedPageExtra(pageId, fields.acf));
       return fields.acf;
     })
