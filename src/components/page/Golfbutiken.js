@@ -34,8 +34,10 @@ export default class Golfbutiken extends Component {
     return (
       <div className="App">
         {featuredImage && <FeaturedImage featuredImage={featuredImage} />}
-        <PageContent content={page.content.rendered} />
-        {this.personnelCards(list)}
+        <div className="u-user-content">
+          <PageContent content={page.content.rendered} />
+          {this.personnelCards(list)}
+        </div>
       </div>
     );
   }
