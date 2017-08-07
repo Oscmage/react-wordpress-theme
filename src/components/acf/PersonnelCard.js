@@ -6,20 +6,22 @@ export default class PersonnelCard extends Component {
     const { name, tel, image, email, role } = this.props;
 
     return (
-      <div>
-        <h2>
-          {name}
-        </h2>
-        <BackgroundImage cssClass="personnel-image" url={image} />
-        <p>
-          Role: {role}
-        </p>
-        <p>
-          Tel: {tel}
-        </p>
-        <p>
-          Email: {email}
-        </p>
+      <div className="personnel-card">
+        <div className="personnel-card-inner">
+          <h2>
+            {name}
+          </h2>
+          <BackgroundImage cssClass="personnel-image" url={image} />
+          <p>
+            Role: {role}
+          </p>
+          <p>
+            Tel: {tel}
+          </p>
+          <p>
+            Email: {email}
+          </p>
+        </div>
       </div>
     );
   }

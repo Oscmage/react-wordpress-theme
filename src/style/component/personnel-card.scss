@@ -1,0 +1,28 @@
+.personnel-card {
+  padding: $medium-padding;
+  width: 300px;
+}
+
+.personnel-card-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: $x-large-padding $medium-padding;
+  min-height: 450px;
+}
+
+.personnel-image {
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  border-radius: 100%;
+}
+
+.personnel-card-inner p {
+  width: 210px;
+  text-align: center;
+  word-wrap: break-word;
+}

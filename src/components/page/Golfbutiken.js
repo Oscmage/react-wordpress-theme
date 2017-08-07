@@ -6,7 +6,6 @@ import PersonnelCard from "./../acf/PersonnelCard";
 export default class Golfbutiken extends Component {
   personnelCards = list => {
     const items = list.map(item => {
-      console.log(item.name + item.tel);
       return (
         <PersonnelCard
           key={item.name + item.tel}
@@ -14,6 +13,7 @@ export default class Golfbutiken extends Component {
           email={item.email}
           name={item.name}
           role={item.roll}
+          image={item.image}
         />
       );
     });
